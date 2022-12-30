@@ -1,0 +1,27 @@
+<?php
+// Connect to the MySQL database
+$host = "localhost";
+$username = "myusername";
+$password = "mypassword";
+$dbname = "mydatabase";
+// Create a connection
+$conn = new mysqli($host, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+// Get the form data
+$firstName = $_POST['first-name'];
+$lastName = $_POST['last-name'];
+$email = $_POST['email'];
+$password = $_POST['password'];
+// Insert the data into the database
+$sql = "INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ssss", $firstName, $lastName, $email, $password);
+$stmt->execute();
+
+// Close the connection
+$conn->close();
+
+?>
